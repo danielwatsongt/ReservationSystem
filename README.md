@@ -13,9 +13,11 @@ Though this is a working implementation, due to time constraints, there are many
 2. Providers should be able to cancel appointments as well. If they are already confirmed, this should immediately notify the client that their reservation has been cancelled.
 3. The Client and Provider APIs should probably be separated into separate services so that they cannot access each other.
 4. This implementation currently has no security whatsoever! Anyone can pretend to be anyone else, can query all other clients and providers, and can see already booked reservations and who owns them. This should obviously be fixed with roles and permissions.
+5. Timezones don't exist! This implemetation uses DateTime.Now all over the place to figure out if it is 24 hours before an appointment, and if 30 minutes have passed after an initial booking. In a better/scalable systems, we would store these as integer Epochs in the database, then convert everything to a standardized timezone somewhere in Middleware.
 
 Developer thoughts:
 1. I might have bit off more than I could chew on this one. I figured I would learn something new and write this entirely as a HotChocolate C# server! I had never used HotChocolate before, but figured it was a good time to learn.
 2. I ended up leaving all the Queries in a single file instead of breaking them up into Type-dependent files. This was purely due to running out of time, but I understand that this is ugly and wouldn't pass a code review.
-3. I'm missing some DataLoaders - a Provider should be obviously be able to easily query for all of their appointments, booked or free. Again, ran out of time.
-4. This was a surprisingly fun task. I really enjoyed learning all of this, and making it work. Thanks for the opportunity!
+3. I'm missing some DataLoaders - a Provider should obviously be able to easily query for all of their appointments, booked or free. Again, ran out of time.
+4. I am very happy with my implementation of creating available appointments. Easily rounding times to the next 15 minute mark to sanitize provider inputs and then calculating the number of appointments and creating them works quite nicely, if I do say so myself. All the magic is in Reservations/ReservationMutations.cs.
+5. This was a surprisingly fun project. I really enjoyed learning all of this, and making it work. Thanks for the opportunity!
